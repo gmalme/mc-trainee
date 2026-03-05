@@ -20,7 +20,7 @@ public class Startup {
             admin.name = "Administrador";
             admin.email = "admin@mct.com";
             admin.username = "admin";
-            admin.passwordHash = "admin123"; // Simplificado
+                admin.passwordHash = "admin123"; // Simplificado
             admin.role = Role.ADMIN;
             admin.persist();
 

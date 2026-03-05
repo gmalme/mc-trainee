@@ -3,6 +3,7 @@ package com.mct.resource;
 import com.mct.dto.CreateUserRequest;
 import com.mct.dto.UserResponse;
 import com.mct.service.UserService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -21,6 +22,7 @@ import java.util.UUID;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "Users", description = "Gestão de usuários")
+@RolesAllowed("ADMIN")
 public class UserResource {
 
     @Inject

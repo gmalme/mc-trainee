@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e5b63ea9-618c-4f0e-8f77-5d1e3b069d08" name="Changes" comment="dia 02 back-end">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/Startup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/Startup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/domain/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/domain/model/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/domain/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/domain/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/resource/TaskResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/resource/TaskResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/resource/UserResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/resource/UserResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/service/TaskService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1.0.0__create_user_and_task_tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/V1.0.0__create_user_and_task_tables.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +40,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "feature/aula-02-back",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/mainclass/Área de Trabalho/workspace/palestras/mct-back",
@@ -112,7 +110,7 @@
       <option name="presentableId" value="Default" />
       <updated>1772719843520</updated>
       <workItem from="1772719844668" duration="952000" />
-      <workItem from="1772720832782" duration="3429000" />
+      <workItem from="1772720832782" duration="4526000" />
     </task>
     <task id="LOCAL-00001" summary="dia 02 back-end">
       <option name="closed" value="true" />
