@@ -26,13 +26,13 @@ public class User extends PanacheEntityBase {
     @Column(unique = true, nullable = false)
     public String username;
 
-    @Column(nullable = false)
+    @Column(name = "password_hash", nullable = false)
     public String passwordHash;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     public Role role;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     public Instant createdAt = Instant.now();
 }

@@ -31,7 +31,7 @@ public class Task extends PanacheEntityBase {
     @Column(name = "due_date")
     public Instant dueDate;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     public Instant createdAt = Instant.now();
 
     @ManyToOne(optional = false)
