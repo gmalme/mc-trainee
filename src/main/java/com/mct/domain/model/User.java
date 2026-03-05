@@ -10,12 +10,18 @@ import java.util.UUID;
  * Entidade que representa um usuário do sistema com credenciais de acesso.
  */
 @Entity
-@Table(name = "users")
+@Table(name = "tb_user")
 public class User extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     public UUID id;
+
+    @Column(nullable = false)
+    public String name;
+
+    @Column(unique = true, nullable = false)
+    public String email;
 
     @Column(unique = true, nullable = false)
     public String username;

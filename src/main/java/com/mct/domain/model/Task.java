@@ -11,7 +11,7 @@ import java.util.UUID;
  * Entidade que representa uma tarefa associada a um usuário.
  */
 @Entity
-@Table(name = "tasks")
+@Table(name = "tb_task")
 public class Task extends PanacheEntityBase {
 
     @Id
@@ -19,7 +19,6 @@ public class Task extends PanacheEntityBase {
     public UUID id;
 
     @Column(nullable = false, length = 120)
-    @Size(min = 3, max = 120)
     public String title;
 
     @Column(columnDefinition = "TEXT")
@@ -27,12 +26,15 @@ public class Task extends PanacheEntityBase {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    public TaskStatus status = TaskStatus.TODO;
+    public TaskStatus status = TaskStatus.OPEN;
+
+    @Column(name = "due_date")
+    public Instant dueDate;
 
     @Column(nullable = false)
     public Instant createdAt = Instant.now();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
-    public User assignedTo;
+    public User user;
 }

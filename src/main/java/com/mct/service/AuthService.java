@@ -3,7 +3,7 @@ package com.mct.service;
 import com.mct.domain.model.User;
 import com.mct.dto.LoginRequestDTO;
 import com.mct.dto.LoginResponseDTO;
-import com.mct.dto.UserDTO;
+import com.mct.dto.UserResponse;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.WebApplicationException;
@@ -39,7 +39,7 @@ public class AuthService {
         return new LoginResponseDTO(
                 token,
                 expiry.getEpochSecond(),
-                new UserDTO(user.id, user.username, user.role)
+                new UserResponse(user.id, user.name, user.email, user.username, user.role, user.createdAt)
         );
     }
 }

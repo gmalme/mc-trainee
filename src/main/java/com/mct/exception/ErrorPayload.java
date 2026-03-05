@@ -7,9 +7,9 @@ import java.util.List;
  * Payload padrão para respostas de erro da API.
  */
 public record ErrorPayload(
-    Instant timestamp,
-    String code,
+    int status,
+    String error,
     String message,
-    List<String> details,
-    String path
+    String path,
+    Instant timestamp
 ) {}

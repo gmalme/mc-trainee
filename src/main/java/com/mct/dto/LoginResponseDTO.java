@@ -9,5 +9,5 @@ import java.util.UUID;
 public record LoginResponseDTO(
     String token,
     long expiresAt,
-    UserDTO user
+    UserResponse user
 ) {}

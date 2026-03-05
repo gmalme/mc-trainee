@@ -1,140 +1,72 @@
 package com.mct.resource;
 
-import com.mct.domain.enums.Role;
 import com.mct.domain.enums.TaskStatus;
-import com.mct.domain.model.Task;
-import com.mct.domain.model.User;
-import com.mct.dto.TaskCreateDTO;
-import com.mct.dto.TaskDTO;
-import com.mct.dto.UserDTO;
-import jakarta.annotation.security.RolesAllowed;
+import com.mct.dto.CreateTaskRequest;
+import com.mct.dto.TaskResponse;
+import com.mct.dto.UpdateTaskRequest;
+import com.mct.service.TaskService;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.jwt.JsonWebToken;
-
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-/**
- * Gestão de tarefas. Regras de visibilidade aplicadas por usuário autenticado.
- */
-@Path("/tasks")
+@Path("/users/{userId}/tasks")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({"ADMIN", "USER"})
+@Tag(name = "Tasks", description = "Gestão de tarefas vinculadas a usuários")
 public class TaskResource {
 
     @Inject
-    JsonWebToken jwt;
+    TaskService taskService;
 
     @GET
-    public List<TaskDTO> getAll(@QueryParam("status") TaskStatus status) {
-        UUID userId = UUID.fromString(jwt.getClaim("userId"));
-        boolean isAdmin = jwt.getGroups().contains(Role.ADMIN.name());
+    @Operation(summary = "Lista tarefas de um usuário")
+    public List<TaskResponse> list(@PathParam("userId") UUID userId, @QueryParam("status") TaskStatus status) {
+        return taskService.listByUser(userId, status);
+    }
 
-        StringBuilder query = new StringBuilder();
-        if (!isAdmin) {
-            query.append("assignedTo.id = '").append(userId).append("'");
-        }
-        
-        if (status != null) {
-            if (query.length() > 0) query.append(" AND ");
-            query.append("status = '").append(status).append("'");
-        }
-
-        List<Task> tasks;
-        if (query.length() > 0) {
-            tasks = Task.find(query.toString()).list();
-        } else {
-            tasks = Task.listAll();
-        }
-
-        return tasks.stream().map(this::mapToDTO).collect(Collectors.toList());
+    @GET
+    @Path("/{taskId}")
+    @Operation(summary = "Obtém detalhes de uma tarefa")
+    @APIResponse(responseCode = "200", description = "Tarefa encontrada")
+    @APIResponse(responseCode = "404", description = "Usuário ou Tarefa não encontrada")
+    public TaskResponse getById(@PathParam("userId") UUID userId, @PathParam("taskId") UUID taskId) {
+        return taskService.findById(userId, taskId);
     }
 
     @POST
-    @Transactional
-    public Response create(@Valid TaskCreateDTO dto) {
-        UUID currentUserId = UUID.fromString(jwt.getClaim("userId"));
-        boolean isAdmin = jwt.getGroups().contains(Role.ADMIN.name());
-
-        Task task = new Task();
-        task.title = dto.title();
-        task.description = dto.description();
-        task.status = dto.status() != null ? dto.status() : TaskStatus.TODO;
-
-        UUID targetUserId = (isAdmin && dto.assignedToId() != null) ? dto.assignedToId() : currentUserId;
-        User user = User.findById(targetUserId);
-        if (user == null) {
-            throw new WebApplicationException("Usuário designado não encontrado", Response.Status.NOT_FOUND);
-        }
-        task.assignedTo = user;
-        task.persist();
-
-        return Response.status(Response.Status.CREATED).entity(mapToDTO(task)).build();
+    @Operation(summary = "Cria uma tarefa para o usuário")
+    @APIResponse(responseCode = "201", description = "Tarefa criada")
+    @APIResponse(responseCode = "404", description = "Usuário não encontrado")
+    @APIResponse(responseCode = "409", description = "Tarefa duplicada")
+    public Response create(@PathParam("userId") UUID userId, @Valid CreateTaskRequest dto) {
+        TaskResponse response = taskService.create(userId, dto);
+        return Response.status(Response.Status.CREATED).entity(response).build();
     }
 
     @PUT
-    @Path("/{id}")
-    @Transactional
-    public TaskDTO update(@PathParam("id") UUID id, @Valid TaskCreateDTO dto) {
-        Task task = findAndVerifyOwnership(id);
-        task.title = dto.title();
-        task.description = dto.description();
-        if (dto.status() != null) task.status = dto.status();
-        
-        if (jwt.getGroups().contains(Role.ADMIN.name()) && dto.assignedToId() != null) {
-            User newUser = User.findById(dto.assignedToId());
-            if (newUser != null) task.assignedTo = newUser;
-        }
-
-        return mapToDTO(task);
-    }
-
-    @PATCH
-    @Path("/{id}/status")
-    @Transactional
-    public TaskDTO updateStatus(@PathParam("id") UUID id, TaskCreateDTO dto) {
-        Task task = findAndVerifyOwnership(id);
-        if (dto.status() == null) {
-             throw new WebApplicationException("Status é obrigatório", Response.Status.BAD_REQUEST);
-        }
-        task.status = dto.status();
-        return mapToDTO(task);
+    @Path("/{taskId}")
+    @Operation(summary = "Atualiza uma tarefa")
+    @APIResponse(responseCode = "200", description = "Tarefa atualizada")
+    @APIResponse(responseCode = "404", description = "Usuário ou Tarefa não encontrada")
+    @APIResponse(responseCode = "409", description = "Conflito ao atualizar título")
+    public TaskResponse update(@PathParam("userId") UUID userId, @PathParam("taskId") UUID taskId, @Valid UpdateTaskRequest dto) {
+        return taskService.update(userId, taskId, dto);
     }
 
     @DELETE
-    @Path("/{id}")
-    @Transactional
-    public void delete(@PathParam("id") UUID id) {
-        Task task = findAndVerifyOwnership(id);
-        task.delete();
-    }
-
-    private Task findAndVerifyOwnership(UUID id) {
-        Task task = Task.findById(id);
-        if (task == null) {
-            throw new WebApplicationException("Tarefa não encontrada", Response.Status.NOT_FOUND);
-        }
-
-        UUID currentUserId = UUID.fromString(jwt.getClaim("userId"));
-        boolean isAdmin = jwt.getGroups().contains(Role.ADMIN.name());
-
-        if (!isAdmin && !task.assignedTo.id.equals(currentUserId)) {
-            throw new WebApplicationException("Acesso negado a esta tarefa", Response.Status.FORBIDDEN);
-        }
-        return task;
-    }
-
-    private TaskDTO mapToDTO(Task t) {
-        return new TaskDTO(
-            t.id, t.title, t.description, t.status, t.createdAt,
-            new UserDTO(t.assignedTo.id, t.assignedTo.username, t.assignedTo.role)
-        );
+    @Path("/{taskId}")
+    @Operation(summary = "Remove uma tarefa")
+    @APIResponse(responseCode = "204", description = "Tarefa removida")
+    @APIResponse(responseCode = "404", description = "Usuário ou Tarefa não encontrada")
+    public Response delete(@PathParam("userId") UUID userId, @PathParam("taskId") UUID taskId) {
+        taskService.delete(userId, taskId);
+        return Response.noContent().build();
     }
 }

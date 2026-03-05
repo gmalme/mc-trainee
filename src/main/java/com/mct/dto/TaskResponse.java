@@ -4,14 +4,12 @@ import com.mct.domain.enums.TaskStatus;
 import java.time.Instant;
 import java.util.UUID;
 
-/**
- * Representação de uma tarefa nas respostas da API.
- */
-public record TaskDTO(
+public record TaskResponse(
     UUID id,
+    UUID userId,
     String title,
     String description,
     TaskStatus status,
-    Instant createdAt,
-    UserDTO assignedTo
+    Instant dueDate,
+    Instant createdAt
 ) {}

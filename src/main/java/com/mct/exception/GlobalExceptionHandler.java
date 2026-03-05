@@ -22,35 +22,35 @@ public class GlobalExceptionHandler implements ExceptionMapper<Throwable> {
 
     @Override
     public Response toResponse(Throwable exception) {
-        String code = "INTERNAL_ERROR";
+        int status = Response.Status.INTERNAL_SERVER_ERROR.getStatusCode();
+        String error = "INTERNAL_SERVER_ERROR";
         String message = exception.getMessage();
-        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
-        List<String> details = null;
 
         if (exception instanceof WebApplicationException webAppEx) {
-            status = Response.Status.fromStatusCode(webAppEx.getResponse().getStatus());
-            code = switch (status) {
-                case NOT_FOUND -> "NOT_FOUND";
-                case UNAUTHORIZED -> "UNAUTHORIZED";
-                case FORBIDDEN -> "FORBIDDEN";
-                case CONFLICT -> "CONFLICT";
-                default -> "ERROR";
-            };
+            status = webAppEx.getResponse().getStatus();
+            error = Response.Status.fromStatusCode(status).name();
         } else if (exception instanceof ConstraintViolationException cve) {
-            status = Response.Status.BAD_REQUEST;
-            code = "VALIDATION_ERROR";
-            message = "Erro de validação nos campos.";
-            details = cve.getConstraintViolations().stream()
+            status = Response.Status.BAD_REQUEST.getStatusCode();
+            error = "BAD_REQUEST";
+            message = cve.getConstraintViolations().stream()
                     .map(v -> v.getPropertyPath() + ": " + v.getMessage())
-                    .collect(Collectors.toList());
+                    .collect(Collectors.joining(", "));
+        } else if (exception.getCause() instanceof org.hibernate.exception.ConstraintViolationException hcv) {
+            status = Response.Status.CONFLICT.getStatusCode();
+            error = "CONFLICT";
+            if (hcv.getConstraintName() != null && hcv.getConstraintName().contains("uk_task_user_title")) {
+                message = "Já existe uma tarefa com este título para este usuário";
+            } else {
+                message = "Conflito de integridade no banco de dados";
+            }
         }
 
         ErrorPayload payload = new ErrorPayload(
-                Instant.now(),
-                code,
+                status,
+                error,
                 message,
-                details,
-                uriInfo.getPath()
+                uriInfo.getPath(),
+                Instant.now()
         );
 
         return Response.status(status).entity(payload).build();
