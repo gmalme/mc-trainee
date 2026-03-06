@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e5b63ea9-618c-4f0e-8f77-5d1e3b069d08" name="Changes" comment="dia 02 back-end">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/Startup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/Startup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/domain/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/domain/model/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mct/domain/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mct/domain/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +27,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.AuthResourceTest.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -45,7 +39,7 @@
     "git-widget-placeholder": "master",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/mainclass/Área de Trabalho/workspace/palestras/mct-back",
+    "last_opened_file_path": "/home/mainclass/Área de Trabalho/workspace/palestras/mct-front",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -56,7 +50,27 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.AuthResourceTest">
+    <configuration name="AuthResourceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mct-back" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mct.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mct" />
+      <option name="MAIN_CLASS_NAME" value="com.mct.AuthResourceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="mct-back" type="QuarkusRunConfigurationType" factoryName="Quarkus" nameIsGenerated="true">
       <module name="mct-back" />
       <QsMavenRunConfiguration>
@@ -95,6 +109,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AuthResourceTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -113,6 +132,9 @@
       <updated>1772719843520</updated>
       <workItem from="1772719844668" duration="952000" />
       <workItem from="1772720832782" duration="3429000" />
+      <workItem from="1772739485822" duration="1575000" />
+      <workItem from="1772764424974" duration="2037000" />
+      <workItem from="1772802722354" duration="1914000" />
     </task>
     <task id="LOCAL-00001" summary="dia 02 back-end">
       <option name="closed" value="true" />
